@@ -29,4 +29,11 @@ export default function WorkingWithArrays(app) {
     res.json(todos);
   });
 
+  app.get("/lab5/todos/:id/delete", (req, res) => {
+    const { id } = req.params;
+    const todoIndex = todos.findIndex((t) => t.id === parseInt(id));
+    todos.splice(todoIndex, 1);
+    res.json(todos);
+  });
+
 };
