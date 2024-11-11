@@ -1,8 +1,6 @@
 import express from 'express';
-const express = require('express')
+import Hello from "./Hello.js"
+//const express = require('express')
 const app = express()
-app.get('/hello', (req, res) => {res.send('Life is good!')})
-app.get('/', (req, res) => {
-    res.send('Welcome to Full Stack Development!')})
-  
+Hello(app)
 app.listen(4000)
