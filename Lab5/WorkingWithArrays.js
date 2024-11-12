@@ -44,7 +44,7 @@ export default function WorkingWithArrays(app) {
   });
 
 
-   app.get("/lab5/todos/:id/completed/:completed", (req, res) => {
+  app.get("/lab5/todos/:id/completed/:completed", (req, res) => {
     const { id, completed } = req.params;
     const todo = todos.find((t) => t.id === parseInt(id));
     todo.completed = completed === "true";
@@ -57,6 +57,17 @@ export default function WorkingWithArrays(app) {
     const todo = todos.find((t) => t.id === parseInt(id));
     todo.description = description;
     res.json(todos);
+  });
+
+  app.get("/lab5/todos/create", (req, res) => {
+    const newTodo = { id: new Date().getTime(), title: "New Task", completed: false };
+    todos.push(newTodo);
+    res.json(todos);
+  });
+  app.post("/lab5/todos", (req, res) => {
+    const newTodo = { ...req.body, id: new Date().getTime() };
+    todos.push(newTodo);
+    res.json(newTodo);
   });
 
 };
