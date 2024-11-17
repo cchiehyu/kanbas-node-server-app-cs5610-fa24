@@ -16,7 +16,7 @@ export function deleteAssignment(assignmentId) {
    
 export function createAssignment(assignment) { 
     const newAssignment = { 
-        ...assignment,  // Fixed typo
+        ...assignment, 
         _id: Date.now().toString() 
     };
     Database.assignments = [...Database.assignments, newAssignment]; 
