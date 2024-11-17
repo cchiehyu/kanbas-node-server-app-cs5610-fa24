@@ -16,7 +16,7 @@ export default[
       "title": "Combustion Analysis",
       "course": "RS101",
       "description": "Analyze combustion processes in rocket propulsion.",
-      "points": 75,
+      "points": 25,
       "dueDate": "2024-05-20T23:59",
       "availableFrom": "2024-05-10T00:00",
       "availableUntil": "2024-05-25T23:59",

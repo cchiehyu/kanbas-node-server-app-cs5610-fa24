@@ -1,35 +1,36 @@
-import * as dao from "./dao.js";
-import * as assignmentsDao from "./assignments/dao.js";
+import * as assignmentsDao from "./AssignmentDao.js";
 
 export default function AssignmentRoutes(app) {
-    app.put("/api/assignments/:assignmentId", (req, res) => {
-        const { assignmentId } = req.params;
-        const assigmentUpdates = req.body;
-        assignmentsDao.updateAssignment(assignmentId, assigmentUpdates);
-        res.sendStatus(204);
-      });
-
-    app.delete("/api/assignments/:assignmentId", (req, res) => {
-        const { assignmentId } = req.params;
-        assignmentsDao.deleteModule(assignmentId);
-        res.sendStatus(204);
-    });
-
-    app.get("/api/assignments/:assignmentId/assignments", (req, res) => {
-        const { assignmentId } = req.params;
-        const assignments = modulesDao.findAssignmentsForCourse(assignmentId);
-        res.json(assignments);
-      });
-
-        // Move the POST route inside the function
-  app.post("/api/assignments/:assignmentId/assignments", (req, res) => {
+ // Update assignment
+ app.put("/api/assignments/:assignmentId", (req, res) => {
     const { assignmentId } = req.params;
+    const assignmentUpdates = req.body;
+    const updatedAssignment = assignmentsDao.updateAssignment(assignmentId, assignmentUpdates);
+    res.json(updatedAssignment);
+});
+
+// Delete assignment
+app.delete("/api/assignments/:assignmentId", (req, res) => {
+    const { assignmentId } = req.params;
+    assignmentsDao.deleteAssignment(assignmentId);
+    res.sendStatus(204);
+});
+
+// Get assignments for course
+app.get("/api/courses/:courseId/assignments", (req, res) => { 
+    const { courseId } = req.params;
+    const assignments = assignmentsDao.findAssignmentsForCourse(courseId);  
+    res.json(assignments);
+});
+
+// Create new assignment
+app.post("/api/courses/:courseId/assignments", (req, res) => { 
     const assignment = {
-      ...req.body,
-      assignment: assignmentId,
+        ...req.body,
+        course: courseId, 
     };
-    const newAssignment = modulesDao.createModule(assignment);
-    res.send(newAssignment);
-  });
+    const newAssignment = assignmentsDao.createAssignment(assignment);  
+    res.json(newAssignment);
+});
     
 }
