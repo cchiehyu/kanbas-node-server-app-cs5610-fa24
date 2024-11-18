@@ -15,4 +15,11 @@ export default function EnrollmentRoutes(app) {
     res.json(newEnrollment);
   });
 
+  app.delete("/api/courses/:courseId/enrollments", (req, res) => {
+    const { courseId } = req.params;
+    const userId = req.body.user; 
+    dao.deleteEnrollment(userId, courseId);
+    res.sendStatus(204);
+  });
+
 }
