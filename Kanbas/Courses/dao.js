@@ -30,4 +30,6 @@ export function createCourse(course) {
       enrollments.some((enrollment) => enrollment.user === userId && enrollment.course === course._id));
     return enrolledCourses;
   }
+
+  
   

@@ -1,27 +1,14 @@
 import Database from "../Database/index.js";
 export function enrollUserInCourse(userId, courseId) {
   const { enrollments } = Database;
-  const newEnrollment = { 
-    _id: Date.now(), 
-    user: userId, 
-    course: courseId 
-  };
-  enrollments.push(newEnrollment);
-  return newEnrollment;  // Return the created enrollment
+  enrollments.push({ _id: Date.now(), user: userId, course: courseId });
 }
 
 export const deleteEnrollment = (userId, courseId) => {
   const { enrollments } = Database;
-  const enrollmentToDelete = enrollments.find(
-    enrollment => enrollment.user === userId && enrollment.course === courseId
+  Database.enrollments = enrollments.filter(
+    enrollment => !(enrollment.user === userId && enrollment.course === courseId)
   );
-  if (enrollmentToDelete) {
-    Database.enrollments = enrollments.filter(
-      enrollment => !(enrollment.user === userId && enrollment.course === courseId)
-    );
-    return enrollmentToDelete;  // Return the deleted enrollment
-  }
-  return null;
 };
 
 export const unenrollUserFromCourse = (userId, courseId) => {
@@ -36,8 +23,7 @@ export const isUserEnrolled = (userId, courseId) => {
 };
 
 export const findEnrollmentsByCourse = (courseId) => {
-  const { enrollments } = Database;
-  return enrollments.filter(
+  return Database.enrollments.filter(
     enrollment => enrollment.course === courseId
   );
 };
@@ -50,8 +36,4 @@ export const createEnrollment = (enrollment) => {
   };
   enrollments.push(newEnrollment);
   return newEnrollment;
-};
-
-export const findAllEnrollments = () => {
-  return Database.enrollments;
 };
