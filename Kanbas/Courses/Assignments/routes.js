@@ -24,12 +24,13 @@ app.get("/api/courses/:courseId/assignments", (req, res) => {
 });
 
 // Create new assignment
-app.post("/api/courses/:courseId/assignments", (req, res) => { 
+app.post("/api/courses/:courseId/assignments", (req, res) => {
+    const { courseId } = req.params; 
     const assignment = {
         ...req.body,
-        course: courseId, 
+        course: courseId,
     };
-    const newAssignment = assignmentsDao.createAssignment(assignment);  
+    const newAssignment = assignmentsDao.createAssignment(assignment);
     res.json(newAssignment);
 });
     

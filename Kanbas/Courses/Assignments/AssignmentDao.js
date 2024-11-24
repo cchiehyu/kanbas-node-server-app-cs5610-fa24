@@ -14,12 +14,16 @@ export function deleteAssignment(assignmentId) {
     Database.assignments = assignments.filter((assignment) => assignment._id !== assignmentId);
 }
    
-export function createAssignment(assignment) { 
-    const newAssignment = { 
-        ...assignment, 
-        _id: Date.now().toString() 
+export function createAssignment(assignment) {
+    if (!Database.assignments) {
+        Database.assignments = [];
+    }
+    const newAssignment = {
+        ...assignment,
+        _id: Date.now().toString()
     };
-    Database.assignments = [...Database.assignments, newAssignment]; 
+    Database.assignments = [...Database.assignments, newAssignment];
+    return newAssignment;
 }
   
 export function findAssignmentsForCourse(courseId) { 
