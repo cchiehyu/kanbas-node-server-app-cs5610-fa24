@@ -5,10 +5,19 @@ export function findAllCourses() {
 }
 
 export function createCourse(course) {
-    const newCourse = { ...course, _id: Date.now().toString() };
-    Database.courses = [...Database.courses, newCourse];
-    return newCourse;
+  const isDuplicate = Database.courses.some(
+    existingCourse => existingCourse.number.toLowerCase() === course.number.toLowerCase()
+  );
+ 
+  if (isDuplicate) {
+    console.log(`Course with number ${course.number} already exists`);
+    return null;
   }
+ 
+  const newCourse = { ...course, _id: Date.now().toString() };
+  Database.courses = [...Database.courses, newCourse];
+  return newCourse;
+ }
 
   export function deleteCourse(courseId) {
     const { courses, enrollments } = Database;
