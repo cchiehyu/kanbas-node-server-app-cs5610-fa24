@@ -1,7 +1,5 @@
 import model from "./model.js";
-//import db from "../Database/index.js";
 
-let { users } = db;
 export const createUser = (user) => {} // implemented later
 export const findAllUsers = () => model.find();
 export const findUserById = (userId) => model.findById(userId);
