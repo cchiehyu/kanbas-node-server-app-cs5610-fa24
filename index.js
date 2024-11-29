@@ -20,7 +20,8 @@ app.use(cors({
     credentials: true,
     origin: [
         process.env.NETLIFY_URL,
-        "http://localhost:3000" 
+        "http://localhost:3000" ,
+        "https://kanbas-react-web-app-cs5610-fa24-a6.netlify.app"
     ]
 }));
 const sessionOptions = {
