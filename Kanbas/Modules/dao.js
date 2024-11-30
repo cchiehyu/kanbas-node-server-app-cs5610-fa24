@@ -13,3 +13,9 @@ export function findModulesForCourse(courseId) {
     // return modules.filter((module) => module.course === courseId);
    }
    
+   export function deleteModule(moduleId) {
+    return model.deleteOne({ _id: moduleId });
+    // const { modules } = Database;
+    // Database.modules = modules.filter((module) => module._id !== moduleId);
+   }
+   
