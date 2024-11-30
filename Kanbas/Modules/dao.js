@@ -1,5 +1,13 @@
 import Database from "../Database/index.js";
 import model from "./model.js";
+export function updateModule(moduleId, moduleUpdates) {
+    return model.updateOne({ _id: moduleId }, moduleUpdates);
+    // const { modules } = Database;
+    // const module = modules.find((module) => module._id === moduleId);
+    // Object.assign(module, moduleUpdates);
+    // return module;
+   }
+   
 export function createModule(module) {
  delete module._id
  return model.create(module);
