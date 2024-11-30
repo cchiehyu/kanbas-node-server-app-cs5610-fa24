@@ -1,6 +1,21 @@
 import * as dao from "./dao.js";
 export default function CourseRoutes(app) { 
-  
+  app.get("/api/courses/:courseId/modules", async (req, res) => {
+    const { courseId } = req.params;
+    const modules = await modulesDao.findModulesForCourse(courseId);
+    res.json(modules);
+  });
+ 
+  app.post("/api/courses/:courseId/modules", async (req, res) => {
+    const { courseId } = req.params;
+    const module = {
+      ...req.body,
+      course: courseId,
+    };
+    const newModule = await modulesDao.createModule(module);
+    res.send(newModule);
+  });
+ 
   app.post("/api/courses", async (req, res) => {
   const course = await dao.createCourse(req.body);
   res.json(course);
@@ -42,7 +57,7 @@ export default function CourseRoutes(app) {
 
   app.get("/api/courses", (req, res) => {
     try {
-      const courses = dao.findAllCourses();
+      const courses =  dao.findAllCourses();
       res.json(courses);
     } catch (error) {
       res.status(500).json({ error: "Could not fetch all courses" });
