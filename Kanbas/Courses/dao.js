@@ -4,8 +4,7 @@ import enrollmentModel from "../Enrollments/model.js";
 export async function findAllCourses() {
   try {
     const courses = await model.find().lean();
-    console.log("Found courses:", courses);
-    return courses;  // Will always be an array with MongoDB
+    return courses; 
   } catch (error) {
     console.error("Error finding all courses:", error);
     return [];
@@ -69,10 +68,8 @@ export async function findCoursesForEnrolledUser(userId) {
     }
 
     const courseIds = enrollments.map(e => e.course);
-    console.log("Found course IDs:", courseIds);
 
     const courses = await model.find({ _id: { $in: courseIds } }).lean();
-    console.log("Found courses:", courses);
 
     // Ensure we return an array even if no courses found
     return Array.isArray(courses) ? courses : [];

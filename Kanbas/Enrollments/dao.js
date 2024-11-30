@@ -1,26 +1,21 @@
 import model from "./model.js";
 
-export const isUserEnrolled = (userId, courseId) => {
-  const { enrollments } = Database;
-  return enrollments.some(
-    enrollment => enrollment.user === userId && enrollment.course === courseId
-  );
+export const findEnrollmentsByCourse = async (courseId) => {
+  const enrollments = await model.find({ course: courseId }).populate("user");
+  return enrollments;
 };
 
-export const findEnrollmentsByCourse = (courseId) => {
-  return Database.enrollments.filter(
-    enrollment => enrollment.course === courseId
-  );
-};
-
-export const createEnrollment = (enrollment) => {
-  const { enrollments } = Database;
-  const newEnrollment = {
-    _id: Date.now(),
-    ...enrollment
-  };
-  enrollments.push(newEnrollment);
+export const createEnrollment = async (enrollment) => {
+  const newEnrollment = await model.create(enrollment);
   return newEnrollment;
+};
+
+export const isUserEnrolled = async (userId, courseId) => {
+  const enrollment = await model.findOne({ 
+    user: userId, 
+    course: courseId 
+  });
+  return enrollment !== null;
 };
 
 export async function findCoursesForUser(userId) {
