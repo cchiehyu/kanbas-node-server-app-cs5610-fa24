@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 const courseSchema = new mongoose.Schema(
  {
+  _id: { type: String, default: () => new mongoose.Types.ObjectId().toString()}, 
    name: String,
    number: String,
    credits: Number,

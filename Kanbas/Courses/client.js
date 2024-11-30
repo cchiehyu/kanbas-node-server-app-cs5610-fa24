@@ -10,6 +10,5 @@ export const fetchAllCourses = async () => {
 export const deleteModule = async (moduleId) => {
     const response = await axiosWithCredentials.delete(
       `${MODULES_API}/${moduleId}` );
-      return response.data;
-     };
-     
+ return response.data;
+};

@@ -5,6 +5,23 @@ export default function CourseRoutes(app) {
     const modules = await modulesDao.findModulesForCourse(courseId);
     res.json(modules);
   });
+
+  const findUsersForCourse = async (req, res) => {
+    const { cid } = req.params;
+    const users = await enrollmentsDao.findUsersForCourse(cid);
+    res.json(users);
+  };
+  app.get("/api/courses/:cid/users", findUsersForCourse);
+
+  app.post("/api/courses", async (req, res) => {
+    const course = await dao.createCourse(req.body);
+    const currentUser = req.session["currentUser"];
+    if (currentUser) {
+      await enrollmentsDao.enrollUserInCourse(currentUser._id, course._id);
+    }
+    res.json(course);
+  });
+ 
  
   app.post("/api/courses/:courseId/modules", async (req, res) => {
     const { courseId } = req.params;
@@ -55,9 +72,9 @@ export default function CourseRoutes(app) {
     res.sendStatus(204);
   });
 
-  app.get("/api/courses", (req, res) => {
+  app.get("/api/courses", async  (req, res) => {
     try {
-      const courses =  dao.findAllCourses();
+      const courses =  await dao.findAllCourses();
       res.json(courses);
     } catch (error) {
       res.status(500).json({ error: "Could not fetch all courses" });
