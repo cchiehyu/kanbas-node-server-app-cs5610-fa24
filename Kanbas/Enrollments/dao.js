@@ -41,19 +41,11 @@ export const isUserEnrolled = async (userId, courseId) => {
 };
 
 export async function findCoursesForUser(userId) {
-  const enrollments = await model.find({
+  const enrollments = await model.find({ 
     user: userId,
     status: "ENROLLED"
   }).populate("course");
-
-  const courses = enrollments.map((enrollment) => enrollment.course);
-  
-  console.log(`User ${userId} is enrolled in ${courses.length} courses:`);
-  courses.forEach((course, index) => {
-    console.log(`${index + 1}. Course: ${course._id}, Name: ${course.name}`);
-  });
-
-  return courses;
+  return enrollments.map((enrollment) => enrollment.course);
 }
 
 export async function findUsersForCourse(courseId) {
