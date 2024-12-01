@@ -2,7 +2,23 @@
 import * as dao from "./dao.js";
 
 export default function EnrollmentRoutes(app) {
-app.post("/api/courses/:courseId/enrollments", async (req, res) => {
+
+  app.get("/api/courses/:courseId/enrollments", async (req, res) => {
+    try {
+      const { courseId } = req.params;
+      const enrollments = await dao.findEnrollmentsByCourse(courseId);
+      res.json(enrollments);
+    } catch (error) {
+      console.error("Error fetching enrollments:", error);
+      res.status(500).json({ 
+        message: "Error fetching enrollments",
+        error: error.message 
+      });
+    }
+  });
+
+ 
+  app.post("/api/courses/:courseId/enrollments", async (req, res) => {
     try {
       const { courseId } = req.params;
       const userId = req.body.user;
@@ -26,18 +42,20 @@ app.post("/api/courses/:courseId/enrollments", async (req, res) => {
     }
   });
 
-  app.post("/api/courses/:courseId/enrollments", async (req, res) => {
-    const { courseId } = req.params;
-    const userId = req.body.user;
-    const newEnrollment = await dao.enrollUserInCourse(userId, courseId);
-    res.json(newEnrollment);
-  });
-
+  // DELETE route for unenrolling
   app.delete("/api/courses/:courseId/enrollments", async (req, res) => {
-    const { courseId } = req.params;
-    const userId = req.body.user;
-    await dao.unenrollUserFromCourse(userId, courseId);
-    res.sendStatus(204);
+    try {
+      const { courseId } = req.params;
+      const userId = req.body.user;
+      await dao.unenrollUserFromCourse(userId, courseId);
+      res.sendStatus(204);
+    } catch (error) {
+      console.error("Error unenrolling:", error);
+      res.status(500).json({ 
+        message: "Error processing unenrollment",
+        error: error.message 
+      });
+    }
   });
 
   
