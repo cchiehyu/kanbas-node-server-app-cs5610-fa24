@@ -18,7 +18,6 @@ const quizSchema = new mongoose.Schema({
     type: Number, 
     default: 100 
   },
-// Schema update
 dueDate: { 
     type: Date
   },
