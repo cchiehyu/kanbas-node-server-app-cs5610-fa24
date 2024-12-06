@@ -4,8 +4,24 @@ export const createQuestion = (question) => {
   return QuestionModel.create(question);
 };
 
-export const findQuestionsForQuiz = (quizId) => {
-  return QuestionModel.find({ quizId }).sort({ order: 1 });
+export const findQuestionsForQuiz = async (quizId) => {
+  console.log("DAO: Searching for questions with quizId:", quizId);
+  try {
+    // First, let's see ALL questions in the database
+    const allQuestions = await QuestionModel.find({});
+    console.log("DAO: ALL Questions in database:", JSON.stringify(allQuestions, null, 2));
+    console.log("DAO: Total questions in database:", allQuestions.length);
+
+    // Now let's see what we get with the filter
+    const questions = await QuestionModel.find({ quizId }).sort({ order: 1 });
+    console.log("DAO: Filtered questions count:", questions.length);
+    console.log("DAO: Filtered Questions:", JSON.stringify(questions, null, 2));
+    
+    return questions;
+  } catch (error) {
+    console.error("DAO: Error finding questions:", error);
+    throw error;
+  }
 };
 
 export const findQuestionById = (questionId) => {

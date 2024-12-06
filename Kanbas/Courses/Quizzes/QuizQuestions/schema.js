@@ -58,7 +58,7 @@ const questionSchema = new mongoose.Schema({
     default: 0
   }
 }, {
-  collection: "questions",
+  collection: "quizQuestions",
   timestamps: true
 });
 

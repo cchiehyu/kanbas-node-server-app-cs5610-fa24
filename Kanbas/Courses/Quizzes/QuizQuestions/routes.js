@@ -1,5 +1,5 @@
-import * as dao from "./QuestionDao.js";
-import * as quizDao from "./QuizDao.js";
+import * as dao from "./QuizQuestionDao.js";
+import * as quizDao from "../QuizDao.js";
 
 export default function QuestionRoutes(app) {
   // Get all questions for a quiz
