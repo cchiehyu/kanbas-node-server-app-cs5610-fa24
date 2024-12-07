@@ -1,19 +1,38 @@
 import QuizSubmissionModel from "./model.js";
 
-export const createSubmission = (submission) => {
-  return QuizSubmissionModel.create(submission);
-};
+export const createSubmission = async (submission) => {
+    // Find existing submission for this quiz and student
+    const existingSubmission = await QuizSubmissionModel.findOne({
+      quizId: submission.quizId,
+      studentId: submission.studentId,
+    });
+  
+    if (existingSubmission) {
+      // Update existing submission with new data
+      return QuizSubmissionModel.findByIdAndUpdate(
+        existingSubmission._id,
+        {
+          ...submission,
+          _id: existingSubmission._id, // Keep the same ID
+        },
+        { new: true } // Return the updated document
+      );
+    } else {
+      // Create new submission if none exists
+      return QuizSubmissionModel.create(submission);
+    }
+  };
 
 export const findSubmissionById = (submissionId) => {
   return QuizSubmissionModel.findById(submissionId);
 };
 
 export const findSubmissionsForQuiz = (quizId, studentId) => {
-  return QuizSubmissionModel.find({ 
-    quizId,
-    studentId 
-  }).sort({ attemptNumber: -1 });
-};
+    return QuizSubmissionModel.find({
+      quizId,
+      studentId
+    });
+  };
 
 export const findLatestAttemptNumber = async (quizId, studentId) => {
   const latest = await QuizSubmissionModel.findOne({ 
