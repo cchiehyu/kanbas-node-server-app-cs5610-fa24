@@ -5,7 +5,6 @@ export const createQuestion = (question) => {
 };
 
 export const findQuestionsForQuiz = async (quizId) => {
-  console.log("DAO: Searching for questions with quizId:", quizId);
   try {
     const allQuestions = await QuestionModel.find({});
     const questions = await QuestionModel.find({ quizId }).sort({ order: 1 });
