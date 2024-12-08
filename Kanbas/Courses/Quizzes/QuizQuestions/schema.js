@@ -15,8 +15,7 @@ const questionSchema = new mongoose.Schema({
     required: true
   },
   title: {
-    type: String,
-    required: true
+    type: String
   },
   points: {
     type: Number,
