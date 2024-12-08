@@ -1,20 +1,35 @@
 import QuestionModel from "./model.js";
+import model from "../model.js";
 
-export const createQuestion = (question) => {
-  return QuestionModel.create(question);
+export const createQuestion = async (question) => {
+  const newQuestion = await QuestionModel.create(question);
+
+  await model.updateOne(
+    { _id: question.quizId },
+    { $inc: { numberOfQuestions: 1 } }
+  );
+
+  return newQuestion;
 };
+
+
 
 export const findQuestionsForQuiz = async (quizId) => {
   try {
-    const allQuestions = await QuestionModel.find({});
     const questions = await QuestionModel.find({ quizId }).sort({ order: 1 });
     
+    await model.updateOne(
+      { _id: quizId },
+      { $set: { numberOfQuestions: questions.length } }
+    );
+
     return questions;
   } catch (error) {
     console.error("DAO: Error finding questions:", error);
     throw error;
   }
 };
+
 
 export const findQuestionById = (questionId) => {
   return QuestionModel.findById(questionId);
